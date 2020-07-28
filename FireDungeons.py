@@ -18,21 +18,23 @@ class Game:
 
         self.clock = pg.time.Clock()
 
-        self.cursor=imageload("assets/gui/crosshair_4.png").convert_alpha()
-        self.HealthBar=imageload("assets/gui/health_ui.png").convert_alpha()
+        self.cursor = imageload("assets/gui/crosshair_4.png").convert_alpha()
+        self.health_bar = imageload("assets/gui/health_ui.png").convert_alpha()
 
         self.true_scroll = [0,0]
-    def DrawHealthbar(self, health):
+        
+    def draw_healthbar(self, health):
 
-        Bar = pg.Rect(58, 16, health*1.2, 18)
-        Bar2 = pg.Rect(58, 16, health*1.2, 6)
-
-
-        pg.draw.rect(self.screen, (200,50,50), Bar)
-        pg.draw.rect(self.screen, (255,50,50), Bar2)
+        up_bar = pg.Rect(58, 16, health*1.2, 18)
+        down_bar = pg.Rect(58, 16, health*1.2, 6)
 
 
-        self.screen.blit(self.HealthBar, (20, 10))
+        pg.draw.rect(self.screen, (200,50,50), up_bar)
+        pg.draw.rect(self.screen, (255,50,50), down_bar)
+
+
+        self.screen.blit(self.health_bar, (20, 10))
+        
     def load_map(self):
 
         self.player = Player(64,64)
@@ -75,6 +77,7 @@ class Game:
             self.draw()
 
     def quit(self):
+    	pg.mixer.quit()
         pg.quit()
         sys.exit()
 
@@ -110,7 +113,7 @@ class Game:
         self.screen.blit(self.player.weapon.image,(self.player.weapon.rect.x-self.scroll[0],self.player.weapon.rect.y-self.scroll[1]))
 
 
-        self.DrawHealthbar(self.player.Health)
+        self.draw_healthbar(self.player.Health)
 
         # Blit the crosshair
         
